@@ -3,9 +3,15 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@material-ui/core": "^3.9.2",
+    "@material-ui/icons": "^3.0.2",
+    "install": "^0.12.2",
+    "npm": "^6.8.0",
     "react": "^16.8.3",
     "react-dom": "^16.8.3",
-    "react-scripts": "2.1.5"
+    "react-redux": "^6.0.1",
+    "react-scripts": "2.1.5",
+    "redux": "^4.0.1"
   },
   "scripts": {
     "start": "react-scripts start",
