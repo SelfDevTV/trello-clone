@@ -5,12 +5,41 @@ import Card from "@material-ui/core/Card";
 import Button from "@material-ui/core/Button";
 import { connect } from "react-redux";
 import { addList, addCard } from "../actions";
+import gql from "graphql-tag";
+import { Mutation } from "react-apollo";
+
+const ADD_LIST = gql`
+  mutation addList($title: String!) {
+    addList(title: $title) {
+      id
+      title
+      cards {
+        text
+        id
+      }
+    }
+  }
+`;
+
+const listsQuery = gql`
+  {
+    lists {
+      id
+      title
+      cards {
+        text
+        id
+      }
+    }
+  }
+`;
 
 class TrelloActionButton extends React.Component {
   state = {
     formOpen: false,
     text: ""
   };
+  1;
 
   openForm = () => {
     this.setState({
@@ -30,18 +59,21 @@ class TrelloActionButton extends React.Component {
     });
   };
 
-  handleAddList = () => {
+  handleAddList = addList => {
     const { dispatch } = this.props;
     const { text } = this.state;
 
-    if (text) {
-      this.setState({
-        text: ""
-      });
-      dispatch(addList(text));
+    console.log("i made it");
+
+    if (!text) {
+      return;
     }
 
-    return;
+    this.setState({
+      text: ""
+    });
+
+    addList({ variables: { title: text } });
   };
 
   handleAddCard = () => {
@@ -80,7 +112,7 @@ class TrelloActionButton extends React.Component {
     );
   };
 
-  renderForm = () => {
+  renderForm = addList => {
     const { list } = this.props;
 
     const placeholder = list
@@ -89,41 +121,58 @@ class TrelloActionButton extends React.Component {
 
     const buttonTitle = list ? "Add List" : "Add Card";
 
+    // FIXME: Fix this mutation. It doesn't rerender
     return (
-      <div>
-        <Card
-          style={{
-            minHeight: 85,
-            minWidth: 272,
-            padding: "6px 8px 2px"
-          }}
-        >
-          <Textarea
-            placeholder={placeholder}
-            autoFocus
-            onBlur={this.closeForm}
-            value={this.state.text}
-            onChange={this.handleInputChange}
-            style={{
-              resize: "none",
-              width: "100%",
-              overflow: "hidden",
-              outline: "none",
-              border: "none"
-            }}
-          />
-        </Card>
-        <div style={styles.formButtonGroup}>
-          <Button
-            onMouseDown={list ? this.handleAddList : this.handleAddCard}
-            variant="contained"
-            style={{ color: "white", backgroundColor: "#5aac44" }}
-          >
-            {buttonTitle}{" "}
-          </Button>
-          <Icon style={{ marginLeft: 8, cursor: "pointer" }}>close</Icon>
-        </div>
-      </div>
+      <Mutation
+        mutation={ADD_LIST}
+        update={(cache, { data: { addList } }) => {
+          const { lists } = cache.readQuery({ query: listsQuery });
+          console.log("hihoooo", addList);
+          cache.writeQuery({
+            query: listsQuery,
+            data: [...lists, addList]
+          });
+        }}
+      >
+        {addList => (
+          <div>
+            <Card
+              style={{
+                minHeight: 85,
+                minWidth: 272,
+                padding: "6px 8px 2px"
+              }}
+            >
+              <Textarea
+                placeholder={placeholder}
+                autoFocus
+                onBlur={this.closeForm}
+                value={this.state.text}
+                onChange={this.handleInputChange}
+                style={{
+                  resize: "none",
+                  width: "100%",
+                  overflow: "hidden",
+                  outline: "none",
+                  border: "none"
+                }}
+              />
+            </Card>
+            <div style={styles.formButtonGroup}>
+              <Button
+                onMouseDown={
+                  list ? () => this.handleAddList(addList) : this.handleAddCard
+                }
+                variant="contained"
+                style={{ color: "white", backgroundColor: "#5aac44" }}
+              >
+                {buttonTitle}{" "}
+              </Button>
+              <Icon style={{ marginLeft: 8, cursor: "pointer" }}>close</Icon>
+            </div>
+          </div>
+        )}
+      </Mutation>
     );
   };
 

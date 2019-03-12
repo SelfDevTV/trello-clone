@@ -3,8 +3,23 @@ import TrelloList from "./TrelloList";
 import { connect } from "react-redux";
 import TrelloActionButton from "./TrelloActionButton";
 import { DragDropContext } from "react-beautiful-dnd";
+import { Query, ApolloConsumer } from "react-apollo";
+import gql from "graphql-tag";
 
 import { sort } from "../actions";
+
+const listsQuery = gql`
+  {
+    lists {
+      id
+      title
+      cards {
+        text
+        id
+      }
+    }
+  }
+`;
 
 class App extends Component {
   onDragEnd = result => {
@@ -26,24 +41,33 @@ class App extends Component {
   };
 
   render() {
-    const { lists } = this.props;
     return (
-      <DragDropContext onDragEnd={this.onDragEnd}>
-        <div>
-          <h2>Hello Youtube</h2>
-          <div style={styles.listsContainer}>
-            {lists.map(list => (
-              <TrelloList
-                listID={list.id}
-                key={list.id}
-                title={list.title}
-                cards={list.cards}
-              />
-            ))}
-            <TrelloActionButton list />
-          </div>
-        </div>
-      </DragDropContext>
+      <Query query={listsQuery}>
+        {({ loading, error, data, refetch }) => {
+          if (loading) return <p>Loading...</p>;
+          if (error) return <p>Error...</p>;
+          console.log(data.lists);
+
+          return (
+            <DragDropContext onDragEnd={this.onDragEnd}>
+              <div>
+                <h2>Hello Youtube</h2>
+                <div style={styles.listsContainer}>
+                  {data.lists.map(list => (
+                    <TrelloList
+                      listID={list.id}
+                      key={list.id}
+                      title={list.title}
+                      cards={list.cards}
+                    />
+                  ))}
+                  <TrelloActionButton list />
+                </div>
+              </div>
+            </DragDropContext>
+          );
+        }}
+      </Query>
     );
   }
 }
