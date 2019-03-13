@@ -10,7 +10,7 @@ const ListContainer = styled.div`
   width: 300px;
   padding: 8px;
   height: 100%;
-  margin-right: 8px;
+  margin: 0 8px 0 0;
 `;
 
 const Lists = styled.div`
