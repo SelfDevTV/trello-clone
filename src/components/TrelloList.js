@@ -1,30 +1,43 @@
 import React from "react";
 import TrelloCard from "./TrelloCard";
 import TrelloActionButton from "./TrelloActionButton";
-import { Droppable } from "react-beautiful-dnd";
+import { Droppable, Draggable } from "react-beautiful-dnd";
 
-const TrelloList = ({ title, cards, listID }) => {
+const TrelloList = ({ title, cards, listID, index }) => {
   return (
-    <div style={styles.container}>
-      <h4>{title}</h4>
+    <Draggable draggableId={String(listID)} index={index}>
+      {provided => (
+        <div
+          {...provided.draggableProps}
+          {...provided.dragHandleProps}
+          ref={provided.innerRef}
+        >
+          <Droppable droppableId={String(listID)} type="card">
+            {provided => (
+              <div
+                {...provided.droppableProps}
+                ref={provided.innerRef}
+                style={styles.container}
+              >
+                <h4>{title}</h4>
 
-      <Droppable droppableId={String(listID)}>
-        {provided => (
-          <div {...provided.droppableProps} ref={provided.innerRef}>
-            {cards.map((card, index) => (
-              <TrelloCard
-                key={card.id}
-                text={card.text}
-                id={card.id}
-                index={index}
-              />
-            ))}
-            {provided.placeholder}
-          </div>
-        )}
-      </Droppable>
-      <TrelloActionButton listID={listID} />
-    </div>
+                {cards.map((card, index) => (
+                  <TrelloCard
+                    key={card.id}
+                    text={card.text}
+                    id={card.id}
+                    index={index}
+                  />
+                ))}
+                {provided.placeholder}
+
+                <TrelloActionButton listID={listID} />
+              </div>
+            )}
+          </Droppable>
+        </div>
+      )}
+    </Draggable>
   );
 };
 
