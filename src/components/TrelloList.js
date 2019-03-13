@@ -13,6 +13,10 @@ const ListContainer = styled.div`
   margin-right: 8px;
 `;
 
+const Lists = styled.div`
+  height: 100%;
+`;
+
 const TrelloList = ({ title, cards, listID, index }) => {
   return (
     <Draggable draggableId={String(listID)} index={index}>
@@ -36,7 +40,6 @@ const TrelloList = ({ title, cards, listID, index }) => {
                   />
                 ))}
                 {provided.placeholder}
-
                 <TrelloActionButton listID={listID} />
               </div>
             )}

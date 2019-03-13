@@ -94,8 +94,10 @@ class TrelloActionButton extends React.Component {
         <Card
           style={{
             minHeight: 85,
-            minWidth: 272,
-            padding: "6px 8px 2px"
+
+            padding: "6px 8px 2px",
+            marginLeft: 8,
+            marginRight: 8
           }}
         >
           <Textarea
@@ -107,6 +109,7 @@ class TrelloActionButton extends React.Component {
             style={{
               resize: "none",
               width: "100%",
+
               overflow: "hidden",
               outline: "none",
               border: "none"
@@ -139,13 +142,16 @@ const styles = {
     cursor: "pointer",
     borderRadius: 3,
     height: 36,
-    width: 272,
-    paddingLeft: 10
+    marginLeft: 8,
+
+    paddingLeft: 10,
+    paddingRight: 10
   },
   formButtonGroup: {
     marginTop: 8,
     display: "flex",
-    alignItems: "center"
+    alignItems: "center",
+    marginLeft: 8
   }
 };
 

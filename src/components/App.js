@@ -20,17 +20,14 @@ class App extends Component {
       return;
     }
 
-    if (type === "list") {
-      return;
-    }
-
     this.props.dispatch(
       sort(
         source.droppableId,
         destination.droppableId,
         source.index,
         destination.index,
-        draggableId
+        draggableId,
+        type
       )
     );
   };
@@ -39,24 +36,25 @@ class App extends Component {
     const { lists } = this.props;
     return (
       <DragDropContext onDragEnd={this.onDragEnd}>
+        <h2>Hello Youtube</h2>
         <Droppable droppableId="all-lists" direction="horizontal" type="list">
           {provided => (
-            <div {...provided.droppableProps} ref={provided.innerRef}>
-              <h2>Hello Youtube</h2>
-              <ListsContainer>
-                {lists.map((list, index) => (
-                  <TrelloList
-                    listID={list.id}
-                    key={list.id}
-                    title={list.title}
-                    cards={list.cards}
-                    index={index}
-                  />
-                ))}
-                <TrelloActionButton list />
-              </ListsContainer>
+            <ListsContainer
+              {...provided.droppableProps}
+              ref={provided.innerRef}
+            >
+              {lists.map((list, index) => (
+                <TrelloList
+                  listID={list.id}
+                  key={list.id}
+                  title={list.title}
+                  cards={list.cards}
+                  index={index}
+                />
+              ))}
               {provided.placeholder}
-            </div>
+              <TrelloActionButton list />
+            </ListsContainer>
           )}
         </Droppable>
       </DragDropContext>
