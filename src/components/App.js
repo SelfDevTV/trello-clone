@@ -3,8 +3,14 @@ import TrelloList from "./TrelloList";
 import { connect } from "react-redux";
 import TrelloActionButton from "./TrelloActionButton";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
+import styled from "styled-components";
 
 import { sort } from "../actions";
+
+const ListsContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
 
 class App extends Component {
   onDragEnd = result => {
@@ -37,7 +43,7 @@ class App extends Component {
           {provided => (
             <div {...provided.droppableProps} ref={provided.innerRef}>
               <h2>Hello Youtube</h2>
-              <div style={styles.listsContainer}>
+              <ListsContainer>
                 {lists.map((list, index) => (
                   <TrelloList
                     listID={list.id}
@@ -48,7 +54,7 @@ class App extends Component {
                   />
                 ))}
                 <TrelloActionButton list />
-              </div>
+              </ListsContainer>
               {provided.placeholder}
             </div>
           )}
@@ -57,13 +63,6 @@ class App extends Component {
     );
   }
 }
-
-const styles = {
-  listsContainer: {
-    display: "flex",
-    flexDirection: "row"
-  }
-};
 
 const mapStateToProps = state => ({
   lists: state.lists
