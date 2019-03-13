@@ -28,8 +28,8 @@ const TrelloList = ({ title, cards, listID }) => {
               id={card.id}
             />
           ))}
-          <TrelloActionButton listID={listID} />
           {provided.placeholder}
+          <TrelloActionButton listID={listID} />
         </ListContainer>
       )}
     </Droppable>
