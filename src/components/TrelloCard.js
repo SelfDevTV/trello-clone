@@ -5,7 +5,9 @@ import CardContent from "@material-ui/core/CardContent";
 import { Draggable } from "react-beautiful-dnd";
 import styled from "styled-components";
 
-const CardContainer = styled.div``;
+const CardContainer = styled.div`
+  margin: 0 0 8px 0;
+`;
 
 const TrelloCard = ({ text, id, index }) => {
   return (
