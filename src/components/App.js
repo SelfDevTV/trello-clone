@@ -4,7 +4,6 @@ import { connect } from "react-redux";
 import TrelloActionButton from "./TrelloActionButton";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import styled from "styled-components";
-
 import { sort } from "../actions";
 
 const ListsContainer = styled.div`

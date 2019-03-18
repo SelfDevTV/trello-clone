@@ -13,10 +13,6 @@ const ListContainer = styled.div`
   margin: 0 8px 0 0;
 `;
 
-const Lists = styled.div`
-  height: 100%;
-`;
-
 const TrelloList = ({ title, cards, listID, index }) => {
   return (
     <Draggable draggableId={String(listID)} index={index}>
