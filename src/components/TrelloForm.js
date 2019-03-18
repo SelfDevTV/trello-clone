@@ -63,7 +63,11 @@ const TrelloForm = props => {
         />
       </StyledCard>
       <ButtonContainer>
-        <StyledButton variant="contained" children={buttonTitle} />
+        <StyledButton
+          variant="contained"
+          children={buttonTitle}
+          onMouseDown={actionButtonClicked}
+        />
 
         <StyledIcon onMouseDown={closeForm}>close</StyledIcon>
       </ButtonContainer>

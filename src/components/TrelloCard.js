@@ -6,6 +6,8 @@ import { Draggable } from "react-beautiful-dnd";
 import styled from "styled-components";
 import Icon from "@material-ui/core/Icon";
 import TrelloForm from "./TrelloForm";
+import { editCard } from "../actions";
+import { connect } from "react-redux";
 
 const CardContainer = styled.div`
   margin: 0 0 8px 0;
@@ -27,17 +29,19 @@ const EditButton = styled(Icon)`
   }
 `;
 
-const TrelloCard = ({ text, id, index }) => {
+const TrelloCard = ({ text, id, listID, index, dispatch }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [cardText, setText] = useState(text);
 
   const closeForm = e => {
-    console.log("clicked");
     setIsEditing(false);
   };
 
-  const saveCard = () => {
+  const saveCard = e => {
     // run redux action
+    e.preventDefault();
+    dispatch(editCard(id, listID, cardText));
+    setIsEditing(false);
   };
 
   const renderEditForm = () => {
@@ -62,7 +66,12 @@ const TrelloCard = ({ text, id, index }) => {
             onDoubleClick={() => setIsEditing(true)}
           >
             <Card>
-              <EditButton fontSize="small">edit</EditButton>
+              <EditButton
+                onMouseDown={() => setIsEditing(true)}
+                fontSize="small"
+              >
+                edit
+              </EditButton>
               <CardContent>
                 <Typography>{text}</Typography>
               </CardContent>
@@ -76,4 +85,4 @@ const TrelloCard = ({ text, id, index }) => {
   return isEditing ? renderEditForm() : renderCard();
 };
 
-export default TrelloCard;
+export default connect()(TrelloCard);
