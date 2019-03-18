@@ -1,6 +1,6 @@
 import React from "react";
 import TrelloCard from "./TrelloCard";
-import TrelloActionButton from "./TrelloActionButton";
+import TrelloCreate from "./TrelloCreate";
 import { Droppable, Draggable } from "react-beautiful-dnd";
 import styled from "styled-components";
 
@@ -13,7 +13,7 @@ const ListContainer = styled.div`
   margin: 0 8px 0 0;
 `;
 
-const TrelloList = ({ title, cards, listID, index }) => {
+const TrelloList = React.memo(({ title, cards, listID, index }) => {
   return (
     <Draggable draggableId={String(listID)} index={index}>
       {provided => (
@@ -37,7 +37,7 @@ const TrelloList = ({ title, cards, listID, index }) => {
                   />
                 ))}
                 {provided.placeholder}
-                <TrelloActionButton listID={listID} />
+                <TrelloCreate listID={listID} />
               </div>
             )}
           </Droppable>
@@ -45,6 +45,6 @@ const TrelloList = ({ title, cards, listID, index }) => {
       )}
     </Draggable>
   );
-};
+});
 
 export default TrelloList;

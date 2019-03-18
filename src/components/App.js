@@ -1,7 +1,7 @@
-import React, { Component } from "react";
+import React, { Component, PureComponent } from "react";
 import TrelloList from "./TrelloList";
 import { connect } from "react-redux";
-import TrelloActionButton from "./TrelloActionButton";
+import TrelloCreate from "./TrelloCreate";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import styled from "styled-components";
 import { sort } from "../actions";
@@ -11,7 +11,9 @@ const ListsContainer = styled.div`
   flex-direction: row;
 `;
 
-class App extends Component {
+// TODO: Fix performance issue
+
+class App extends PureComponent {
   onDragEnd = result => {
     const { destination, source, draggableId, type } = result;
 
@@ -52,7 +54,7 @@ class App extends Component {
                 />
               ))}
               {provided.placeholder}
-              <TrelloActionButton list />
+              <TrelloCreate list />
             </ListsContainer>
           )}
         </Droppable>
