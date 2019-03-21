@@ -135,6 +135,18 @@ const listsReducer = (state = initialState, action) => {
       });
     }
 
+    case CONSTANTS.DELETE_CARD: {
+      const { id, listID } = action.payload;
+      return state.map(list => {
+        if (list.id === listID) {
+          const newCards = list.cards.filter(card => card.id !== id);
+          return { ...list, cards: newCards };
+        } else {
+          return list;
+        }
+      });
+    }
+
     default:
       return state;
   }

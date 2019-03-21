@@ -6,7 +6,7 @@ import { Draggable } from "react-beautiful-dnd";
 import styled from "styled-components";
 import Icon from "@material-ui/core/Icon";
 import TrelloForm from "./TrelloForm";
-import { editCard } from "../actions";
+import { editCard, deleteCard } from "../actions";
 import { connect } from "react-redux";
 import TrelloButton from "./TrelloButton";
 
@@ -36,6 +36,21 @@ const TrelloCard = React.memo(({ text, id, listID, index, dispatch }) => {
     }
   `;
 
+  const DeleteButton = styled(Icon)`
+    position: absolute;
+    display: none;
+    right: 5px;
+    bottom: 5px;
+    opacity: 0.5;
+    ${CardContainer}:hover & {
+      display: block;
+      cursor: pointer;
+    }
+    &:hover {
+      opacity: 0.8;
+    }
+  `;
+
   const closeForm = e => {
     setIsEditing(false);
   };
@@ -49,6 +64,10 @@ const TrelloCard = React.memo(({ text, id, listID, index, dispatch }) => {
 
     dispatch(editCard(id, listID, cardText));
     setIsEditing(false);
+  };
+
+  const handleDeleteCard = e => {
+    dispatch(deleteCard(id, listID));
   };
 
   const renderEditForm = () => {
@@ -76,6 +95,9 @@ const TrelloCard = React.memo(({ text, id, listID, index, dispatch }) => {
               >
                 edit
               </EditButton>
+              <DeleteButton fontSize="small" onMouseDown={handleDeleteCard}>
+                delete
+              </DeleteButton>
               <CardContent>
                 <Typography>{text}</Typography>
               </CardContent>
