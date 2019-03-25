@@ -15,18 +15,18 @@ const ListContainer = styled.div`
   margin: 0 8px 0 0;
 `;
 
+const StyledInput = styled.input`
+  width: 100%;
+  border: none;
+  outline-color: blue;
+  border-radius: 3px;
+  margin-bottom: 3px;
+  padding: 5px;
+`;
+
 const TrelloList = ({ title, cards, listID, index, dispatch }) => {
   const [isEditing, setIsEditing] = useState(false);
-  const [listTitle, setListTitle] = useState("title");
-
-  const StyledInput = styled.input`
-    width: 100%;
-    border: none;
-    outline-color: blue;
-    border-radius: 3px;
-    margin-bottom: 3px;
-    padding: 5px;
-  `;
+  const [listTitle, setListTitle] = useState(title);
 
   // FIXME: Why does it delete the input on every letter I type in?
 
@@ -42,6 +42,8 @@ const TrelloList = ({ title, cards, listID, index, dispatch }) => {
       />
     );
   };
+
+  // other stuff
 
   const handleFocus = e => {
     console.log("hi");

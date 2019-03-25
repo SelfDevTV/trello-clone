@@ -10,46 +10,46 @@ import { editCard, deleteCard } from "../actions";
 import { connect } from "react-redux";
 import TrelloButton from "./TrelloButton";
 
+const CardContainer = styled.div`
+  margin: 0 0 8px 0;
+  position: relative;
+  max-width: 100%;
+  word-wrap: break-word;
+`;
+
+const EditButton = styled(Icon)`
+  position: absolute;
+  display: none;
+  right: 5px;
+  top: 5px;
+  opacity: 0.5;
+  ${CardContainer}:hover & {
+    display: block;
+    cursor: pointer;
+  }
+  &:hover {
+    opacity: 0.8;
+  }
+`;
+
+const DeleteButton = styled(Icon)`
+  position: absolute;
+  display: none;
+  right: 5px;
+  bottom: 5px;
+  opacity: 0.5;
+  ${CardContainer}:hover & {
+    display: block;
+    cursor: pointer;
+  }
+  &:hover {
+    opacity: 0.8;
+  }
+`;
+
 const TrelloCard = React.memo(({ text, id, listID, index, dispatch }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [cardText, setText] = useState(text);
-
-  const CardContainer = styled.div`
-    margin: 0 0 8px 0;
-    position: relative;
-    max-width: 100%;
-    word-wrap: break-word;
-  `;
-
-  const EditButton = styled(Icon)`
-    position: absolute;
-    display: none;
-    right: 5px;
-    top: 5px;
-    opacity: 0.5;
-    ${CardContainer}:hover & {
-      display: block;
-      cursor: pointer;
-    }
-    &:hover {
-      opacity: 0.8;
-    }
-  `;
-
-  const DeleteButton = styled(Icon)`
-    position: absolute;
-    display: none;
-    right: 5px;
-    bottom: 5px;
-    opacity: 0.5;
-    ${CardContainer}:hover & {
-      display: block;
-      cursor: pointer;
-    }
-    &:hover {
-      opacity: 0.8;
-    }
-  `;
 
   const closeForm = e => {
     setIsEditing(false);
