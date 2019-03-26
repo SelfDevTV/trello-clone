@@ -4,7 +4,8 @@ import TrelloCreate from "./TrelloCreate";
 import { Droppable, Draggable } from "react-beautiful-dnd";
 import styled from "styled-components";
 import { connect } from "react-redux";
-import { editTitle } from "../actions";
+import { editTitle, deleteList } from "../actions";
+import Icon from "@material-ui/core/Icon";
 
 const ListContainer = styled.div`
   background-color: #dfe3e6;
@@ -24,26 +25,43 @@ const StyledInput = styled.input`
   padding: 5px;
 `;
 
+const TitleContainer = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+`;
+
+const DeleteButton = styled(Icon)`
+  cursor: pointer;
+`;
+
+const ListTitle = styled.h4`
+  transition: background 0.3s ease-in;
+  ${TitleContainer}:hover & {
+    background: #ccc;
+  }
+`;
+
 const TrelloList = ({ title, cards, listID, index, dispatch }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [listTitle, setListTitle] = useState(title);
 
-  // FIXME: Why does it delete the input on every letter I type in?
-
   const renderEditInput = () => {
     return (
-      <StyledInput
-        type="text"
-        value={listTitle}
-        onChange={handleChange}
-        autoFocus
-        onFocus={handleFocus}
-        onBlur={handleFinishEditing}
-      />
+      <form onSubmit={handleFinishEditing}>
+        <StyledInput
+          type="text"
+          value={listTitle}
+          onChange={handleChange}
+          autoFocus
+          onFocus={handleFocus}
+          onBlur={handleFinishEditing}
+        />
+      </form>
     );
   };
-
-  // other stuff
 
   const handleFocus = e => {
     console.log("hi");
@@ -61,6 +79,10 @@ const TrelloList = ({ title, cards, listID, index, dispatch }) => {
     dispatch(editTitle(listID, listTitle));
   };
 
+  const handleDeleteList = () => {
+    dispatch(deleteList(listID));
+  };
+
   return (
     <Draggable draggableId={String(listID)} index={index}>
       {provided => (
@@ -75,7 +97,12 @@ const TrelloList = ({ title, cards, listID, index, dispatch }) => {
                 {isEditing ? (
                   renderEditInput()
                 ) : (
-                  <h4 onClick={() => setIsEditing(true)}>{listTitle}</h4>
+                  <TitleContainer onClick={() => setIsEditing(true)}>
+                    <ListTitle>{listTitle}</ListTitle>
+                    <DeleteButton onClick={handleDeleteList}>
+                      delete
+                    </DeleteButton>
+                  </TitleContainer>
                 )}
 
                 {cards.map((card, index) => (
