@@ -34,7 +34,8 @@ class App extends PureComponent {
   };
 
   render() {
-    const { lists } = this.props;
+    const { lists, listOrder, cards } = this.props;
+
     return (
       <DragDropContext onDragEnd={this.onDragEnd}>
         <h2>Hello Youtube</h2>
@@ -44,15 +45,20 @@ class App extends PureComponent {
               {...provided.droppableProps}
               ref={provided.innerRef}
             >
-              {lists.map((list, index) => (
-                <TrelloList
-                  listID={list.id}
-                  key={list.id}
-                  title={list.title}
-                  cards={list.cards}
-                  index={index}
-                />
-              ))}
+              {listOrder.map((listID, index) => {
+                const list = lists[listID];
+                const listCards = list.cards.map(cardID => cards[cardID]);
+                console.log("list", list, "cards", listCards);
+                return (
+                  <TrelloList
+                    listID={list.id}
+                    key={list.id}
+                    title={list.title}
+                    cards={listCards}
+                    index={index}
+                  />
+                );
+              })}
               {provided.placeholder}
               <TrelloCreate list />
             </ListsContainer>
@@ -64,7 +70,9 @@ class App extends PureComponent {
 }
 
 const mapStateToProps = state => ({
-  lists: state.lists
+  lists: state.lists,
+  listOrder: state.listOrder,
+  cards: state.cards
 });
 
 export default connect(mapStateToProps)(App);
