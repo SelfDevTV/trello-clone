@@ -3,13 +3,7 @@ import { CONSTANTS } from "../actions";
 let listID = 1;
 let cardID = 0;
 
-const initialState = {
-  "list-0": {
-    title: "Last Episode",
-    id: `list-0`,
-    cards: ["card-0"]
-  }
-};
+const initialState = {};
 
 const listsReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -76,51 +70,28 @@ const listsReducer = (state = initialState, action) => {
       }
       return state;
 
-    case CONSTANTS.EDIT_CARD: {
-      const { id, listID, newText } = action.payload;
-      return state.map(list => {
-        if (list.id === listID) {
-          const newCards = list.cards.map(card => {
-            if (card.id === id) {
-              card.text = newText;
-              return card;
-            }
-            return card;
-          });
-          return { ...list, cards: newCards };
-        }
-        return list;
-      });
-    }
-
     case CONSTANTS.DELETE_CARD: {
-      const { id, listID } = action.payload;
-      return state.map(list => {
-        if (list.id === listID) {
-          const newCards = list.cards.filter(card => card.id !== id);
-          return { ...list, cards: newCards };
-        } else {
-          return list;
-        }
-      });
+      const { listID, id } = action.payload;
+
+      const list = state[listID];
+      const newCards = list.cards.filter(cardID => cardID !== id);
+
+      return { ...state, [listID]: { ...list, cards: newCards } };
     }
 
     case CONSTANTS.EDIT_LIST_TITLE: {
       const { listID, newTitle } = action.payload;
-      console.log(listID, newTitle);
-      return state.map(list => {
-        if (list.id === listID) {
-          list.title = newTitle;
-          return list;
-        } else {
-          return list;
-        }
-      });
+
+      const list = state[listID];
+      list.title = newTitle;
+      return { ...state, [listID]: list };
     }
 
     case CONSTANTS.DELETE_LIST: {
       const { listID } = action.payload;
-      return state.filter(list => list.id !== listID);
+      const newState = state;
+      delete newState[listID];
+      return newState;
     }
 
     default:

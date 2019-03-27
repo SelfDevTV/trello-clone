@@ -38,7 +38,7 @@ class App extends PureComponent {
 
     return (
       <DragDropContext onDragEnd={this.onDragEnd}>
-        <h2>Hello Youtube</h2>
+        <h2>Trello Board</h2>
         <Droppable droppableId="all-lists" direction="horizontal" type="list">
           {provided => (
             <ListsContainer
@@ -47,17 +47,19 @@ class App extends PureComponent {
             >
               {listOrder.map((listID, index) => {
                 const list = lists[listID];
-                const listCards = list.cards.map(cardID => cards[cardID]);
-                console.log("list", list, "cards", listCards);
-                return (
-                  <TrelloList
-                    listID={list.id}
-                    key={list.id}
-                    title={list.title}
-                    cards={listCards}
-                    index={index}
-                  />
-                );
+                if (list) {
+                  const listCards = list.cards.map(cardID => cards[cardID]);
+
+                  return (
+                    <TrelloList
+                      listID={list.id}
+                      key={list.id}
+                      title={list.title}
+                      cards={listCards}
+                      index={index}
+                    />
+                  );
+                }
               })}
               {provided.placeholder}
               <TrelloCreate list />

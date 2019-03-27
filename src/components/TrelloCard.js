@@ -67,6 +67,7 @@ const TrelloCard = React.memo(({ text, id, listID, index, dispatch }) => {
   };
 
   const handleDeleteCard = e => {
+    console.log(listID);
     dispatch(deleteCard(id, listID));
   };
 

@@ -27,6 +27,7 @@ const StyledInput = styled.input`
 
 const TitleContainer = styled.div`
   width: 100%;
+  height: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -69,8 +70,6 @@ const TrelloList = ({ title, cards, listID, index, dispatch }) => {
   };
 
   const handleFocus = e => {
-    console.log("hi");
-
     e.target.select();
   };
 
@@ -98,30 +97,32 @@ const TrelloList = ({ title, cards, listID, index, dispatch }) => {
         >
           <Droppable droppableId={String(listID)} type="card">
             {provided => (
-              <div {...provided.droppableProps} ref={provided.innerRef}>
-                {isEditing ? (
-                  renderEditInput()
-                ) : (
-                  <TitleContainer onClick={() => setIsEditing(true)}>
-                    <ListTitle>{listTitle}</ListTitle>
-                    <DeleteButton onClick={handleDeleteList}>
-                      delete
-                    </DeleteButton>
-                  </TitleContainer>
-                )}
-
-                {cards.map((card, index) => (
-                  <TrelloCard
-                    key={card.id}
-                    text={card.text}
-                    id={card.id}
-                    index={index}
-                    listID={listID}
-                  />
-                ))}
-
-                {provided.placeholder}
-                <TrelloCreate listID={listID} />
+              <div>
+                <div>
+                  {isEditing ? (
+                    renderEditInput()
+                  ) : (
+                    <TitleContainer onClick={() => setIsEditing(true)}>
+                      <ListTitle>{listTitle}</ListTitle>
+                      <DeleteButton onClick={handleDeleteList}>
+                        delete
+                      </DeleteButton>
+                    </TitleContainer>
+                  )}
+                </div>
+                <div {...provided.droppableProps} ref={provided.innerRef}>
+                  {cards.map((card, index) => (
+                    <TrelloCard
+                      key={card.id}
+                      text={card.text}
+                      id={card.id}
+                      index={index}
+                      listID={listID}
+                    />
+                  ))}
+                  {provided.placeholder}
+                  <TrelloCreate listID={listID} />
+                </div>
               </div>
             )}
           </Droppable>

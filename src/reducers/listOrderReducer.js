@@ -26,6 +26,10 @@ const listOrderReducer = (state = initialState, action) => {
       }
       return state;
     }
+    case CONSTANTS.DELETE_LIST: {
+      const { listID } = action.payload;
+      return state.filter(id => id !== listID);
+    }
     default:
       return state;
   }
