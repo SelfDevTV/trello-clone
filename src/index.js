@@ -12,6 +12,7 @@ const GlobalStyle = createGlobalStyle`
   html {
     background-color: orange;
     box-sizing: border-box;
+    transition: all 0.5s ease-in;
   }
 `;
 

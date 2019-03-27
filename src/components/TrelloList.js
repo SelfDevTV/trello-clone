@@ -28,7 +28,7 @@ const TrelloList = ({ title, cards, listID, index, dispatch }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [listTitle, setListTitle] = useState(title);
 
-  // FIXME: Why does it delete the input on every letter I type in?
+  // TODO: Play around with react  spring and create animation. It's currently located in the TrelloCard file.
 
   const renderEditInput = () => {
     return (
@@ -87,6 +87,7 @@ const TrelloList = ({ title, cards, listID, index, dispatch }) => {
                     listID={listID}
                   />
                 ))}
+
                 {provided.placeholder}
                 <TrelloCreate listID={listID} />
               </div>
