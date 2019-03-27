@@ -9,7 +9,6 @@ import TrelloForm from "./TrelloForm";
 import { editCard, deleteCard } from "../actions";
 import { connect } from "react-redux";
 import TrelloButton from "./TrelloButton";
-import { useSpring, animated } from "react-spring";
 
 const CardContainer = styled.div`
   margin: 0 0 8px 0;
@@ -52,12 +51,6 @@ const TrelloCard = React.memo(({ text, id, listID, index, dispatch }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [cardText, setText] = useState(text);
 
-  const props = useSpring({
-    opacity: 1,
-    from: { opacity: 0 },
-    config: { duration: 400 }
-  });
-
   const closeForm = e => {
     setIsEditing(false);
   };
@@ -87,34 +80,32 @@ const TrelloCard = React.memo(({ text, id, listID, index, dispatch }) => {
 
   const renderCard = () => {
     return (
-      <animated.div style={props}>
-        <Draggable draggableId={String(id)} index={index}>
-          {provided => (
-            <CardContainer
-              {...provided.draggableProps}
-              {...provided.dragHandleProps}
-              ref={provided.innerRef}
-              onDoubleClick={() => setIsEditing(true)}
-            >
-              <Card>
-                <EditButton
-                  onMouseDown={() => setIsEditing(true)}
-                  fontSize="small"
-                >
-                  edit
-                </EditButton>
-                <DeleteButton fontSize="small" onMouseDown={handleDeleteCard}>
-                  delete
-                </DeleteButton>
+      <Draggable draggableId={String(id)} index={index}>
+        {provided => (
+          <CardContainer
+            {...provided.draggableProps}
+            {...provided.dragHandleProps}
+            ref={provided.innerRef}
+            onDoubleClick={() => setIsEditing(true)}
+          >
+            <Card>
+              <EditButton
+                onMouseDown={() => setIsEditing(true)}
+                fontSize="small"
+              >
+                edit
+              </EditButton>
+              <DeleteButton fontSize="small" onMouseDown={handleDeleteCard}>
+                delete
+              </DeleteButton>
 
-                <CardContent>
-                  <Typography>{text}</Typography>
-                </CardContent>
-              </Card>
-            </CardContainer>
-          )}
-        </Draggable>
-      </animated.div>
+              <CardContent>
+                <Typography>{text}</Typography>
+              </CardContent>
+            </Card>
+          </CardContainer>
+        )}
+      </Draggable>
     );
   };
 
