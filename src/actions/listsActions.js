@@ -20,13 +20,19 @@ export const sort = (
     payload: {
       droppableIdStart,
       droppableIdEnd,
+
       droppableIndexEnd,
       droppableIndexStart,
+
+      droppableIndexStart,
+      droppableIndexEnd,
+
       draggableId,
       type
     }
   };
 };
+
 
 export const editTitle = (listID, newTitle) => {
   return {
@@ -46,3 +52,4 @@ export const deleteList = listID => {
     }
   };
 };
+
