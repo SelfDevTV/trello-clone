@@ -20,10 +20,36 @@ export const sort = (
     payload: {
       droppableIdStart,
       droppableIdEnd,
+
+      droppableIndexEnd,
+      droppableIndexStart,
+
       droppableIndexStart,
       droppableIndexEnd,
+
       draggableId,
       type
     }
   };
 };
+
+
+export const editTitle = (listID, newTitle) => {
+  return {
+    type: CONSTANTS.EDIT_LIST_TITLE,
+    payload: {
+      listID,
+      newTitle
+    }
+  };
+};
+
+export const deleteList = listID => {
+  return {
+    type: CONSTANTS.DELETE_LIST,
+    payload: {
+      listID
+    }
+  };
+};
+
