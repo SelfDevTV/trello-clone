@@ -159,6 +159,11 @@ const listsReducer = (state = initialState, action) => {
       });
     }
 
+    case CONSTANTS.DELETE_LIST: {
+      const { listID } = action.payload;
+      return state.filter(list => list.id !== listID);
+    }
+
     default:
       return state;
   }
