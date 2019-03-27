@@ -45,6 +45,7 @@ const initialState = [
 ];
 
 const listsReducer = (state = initialState, action) => {
+  console.log(state);
   switch (action.type) {
     case CONSTANTS.ADD_LIST:
       const newList = {
@@ -148,10 +149,11 @@ const listsReducer = (state = initialState, action) => {
     }
 
     case CONSTANTS.EDIT_LIST_TITLE: {
-      const { listID, newListTitle } = action.payload;
+      const { listID, newTitle } = action.payload;
+      console.log(listID, newTitle);
       return state.map(list => {
         if (list.id === listID) {
-          list.title = newListTitle;
+          list.title = newTitle;
           return list;
         } else {
           return list;
