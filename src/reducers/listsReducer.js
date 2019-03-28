@@ -3,13 +3,20 @@ import { CONSTANTS } from "../actions";
 let listID = 1;
 let cardID = 0;
 
-const initialState = {};
+const initialState = {
+  "list-0": {
+    id: "list-0",
+    cards: ["card-0"],
+    title: "myList",
+    board: "board-0"
+  }
+};
 
 const listsReducer = (state = initialState, action) => {
   switch (action.type) {
     case CONSTANTS.ADD_LIST: {
       const newList = {
-        title: action.payload,
+        title: action.payload.title,
         id: `list-${listID}`,
         cards: []
       };
