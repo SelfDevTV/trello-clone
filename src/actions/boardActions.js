@@ -1,4 +1,5 @@
 import { CONSTANTS } from "../actions";
+import uuid from "uuidv4";
 
 export const setActiveBoard = id => {
   return {
@@ -8,8 +9,9 @@ export const setActiveBoard = id => {
 };
 
 export const addBoard = title => {
+  const id = uuid();
   return {
     type: CONSTANTS.ADD_BOARD,
-    payload: title
+    payload: { title, id }
   };
 };

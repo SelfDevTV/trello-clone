@@ -5,6 +5,7 @@ import TrelloCreate from "./TrelloCreate";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import styled from "styled-components";
 import { sort, setActiveBoard } from "../actions";
+import { Link } from "react-router-dom";
 
 const ListsContainer = styled.div`
   display: flex;
@@ -51,7 +52,8 @@ class TrelloBoard extends PureComponent {
 
     return (
       <DragDropContext onDragEnd={this.onDragEnd}>
-        <h2>Trello Board</h2>
+        <Link to="/">Go Back</Link>
+        <h2>{board.title}</h2>
         <Droppable droppableId="all-lists" direction="horizontal" type="list">
           {provided => (
             <ListsContainer
@@ -86,7 +88,6 @@ class TrelloBoard extends PureComponent {
 
 const mapStateToProps = state => ({
   lists: state.lists,
-  listOrder: state.listOrder,
   cards: state.cards,
   boards: state.boards
 });
