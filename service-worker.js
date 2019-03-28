@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/trello-clone/precache-manifest.eef508d561b24b07319617c7d8ec852c.js"
+  "/trello-clone/precache-manifest.e90c90baf79f09cf0eadac55a0a3e7d1.js"
 );
 
 workbox.clientsClaim();
