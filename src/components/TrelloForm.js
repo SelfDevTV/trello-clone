@@ -40,12 +40,17 @@ const TrelloForm = React.memo(
       ? "Enter list title..."
       : "Enter a title for this card...";
 
+    const handleFocus = e => {
+      e.target.select();
+    };
+    
     return (
       <Container>
         <StyledCard>
           <StyledTextArea
             placeholder={placeholder}
             autoFocus
+            onFocus={handleFocus}
             value={text}
             onChange={e => onChange(e)}
             onBlur={closeForm}
